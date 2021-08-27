@@ -5,9 +5,10 @@
 ## 🖥 CS <a id="computer-science"></a>
 
 * [🦕 운영체제](computer-science/operating-system/README.md)
-  * [운영체제가 뭐길래?](computer-science/operating-system/os-chap-1_2.md)
-  * [프로세스의 이해](computer-science/operating-system/os-chap-3.md)
-  * [쓰레드의 이해](computer-science/operating-system/os-chap-4.md)
+  * [이론](computer-science/operating-system/os-theory/README.md)
+    * [운영체제가 뭐길래?](computer-science/operating-system/os-theory/os-chap-1_2.md)
+    * [프로세스의 이해](computer-science/operating-system/os-theory/os-chap-3.md)
+    * [쓰레드의 이해](computer-science/operating-system/os-theory/os-chap-4.md)
 * [🌏 네트워크](computer-science/network/README.md)
   * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
     * [응용 계층](computer-science/network/top-down-network/application-layer.md)
@@ -25,4 +26,10 @@
   * [스택/큐](algorithm/programmers/stack-queue/README.md)
     * [다리를 지나는 트럭](algorithm/programmers/stack-queue/truck-42583.md)
     * [주식가격](algorithm/programmers/stack-queue/stock-42584.md)
+
+## 💬 언어 <a id="programming-langs"></a>
+
+* [🟨 자바스크립트](programming-langs/javascript/README.md)
+  * [모던 자바스크립트](programming-langs/javascript/js-deep-dive/README.md)
+    * [데이터 타입](programming-langs/javascript/js-deep-dive/js-data-type.md)
 
