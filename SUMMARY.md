@@ -9,7 +9,8 @@
   * [프로세스의 이해](computer-science/operating-system/os-chap-3.md)
   * [쓰레드의 이해](computer-science/operating-system/os-chap-4.md)
 * [🌏 네트워크](computer-science/network/README.md)
-  * [응용 계층](computer-science/network/application-layer.md)
+  * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
+    * [응용 계층](computer-science/network/top-down-network/application-layer.md)
 
 ## 📦 프레임워크 <a id="framework"></a>
 
