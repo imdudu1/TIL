@@ -9,6 +9,7 @@
     * [운영체제가 뭐길래?](computer-science/operating-system/os-theory/os-chap-1_2.md)
     * [프로세스의 이해](computer-science/operating-system/os-theory/os-chap-3.md)
     * [쓰레드의 이해](computer-science/operating-system/os-theory/os-chap-4.md)
+    * [CPU 스케쥴링](computer-science/operating-system/os-theory/os-chap-5.md)
 * [🌏 네트워크](computer-science/network/README.md)
   * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
     * [응용 계층](computer-science/network/top-down-network/application-layer.md)
@@ -29,7 +30,13 @@
 
 ## 💬 언어 <a id="programming-langs"></a>
 
-* [🟨 자바스크립트](programming-langs/javascript/README.md)
-  * [모던 자바스크립트](programming-langs/javascript/js-deep-dive/README.md)
-    * [데이터 타입](programming-langs/javascript/js-deep-dive/js-data-type.md)
+* [🟨 자바스크립트](programming-langs/javascript.md)
+
+## 📚 독서 <a id="books"></a>
+
+* [🦎 모던 자바스크립트](books/js-deep-dive/README.md)
+  * [데이터 타입](books/js-deep-dive/js-data-type.md)
+* [🔬 자바 ORM 표준 JPA 프로그래밍](books/java-orm-jpa/README.md)
+  * [JPA 소개](books/java-orm-jpa/jpa-chap-1.md)
+  * [영속성 관리](books/java-orm-jpa/jpa-chap-3.md)
 

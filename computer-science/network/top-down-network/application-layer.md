@@ -133,3 +133,113 @@ HTTP 메세지는 요청과 응답 두 가지 형태를 가진다. 각 형태는
   * 404 Not Found
   * 505 HTTP Version Not Supported
 
+### 쿠키
+
+쿠키는 HTTP 통신의 Stateless 특성의 단점을 보완하기 위해서 많은 웹사이트에서 사용되어지고 있다.
+
+* 서버측에서 HTTP 응답 메세지에 쿠키 헤더를 포함해 전달한다.
+* 응답을 받은 클라이언트측은 다음 요청에 응답으로 받은 쿠키 헤더를 포함해 전달한다.
+* 클라이언트 브라우저는 해당 쿠키 파일을 유지한다.
+* 서버도 개별 클라이언트에 대한 Back-end database 유지한다.
+
+쿠키는 위 네 가지 요소로 동작하는데 예를 들어 \(1\) 최초 클라이언트가 서버로 요청을 보내면 \(2\) 서버는 해당 요청에 대한 고유 식별자를 포함한 쿠키를 포함해 응답을 돌려준다. \(3\) 클라이언트는 이후 통신에 받은 쿠키를 포함해 통신을 하는데, 서버 측에선 해당 고유 번호를 기반으로 Back-end database를 유지하며 해당 클라이언트가 보낸 요청에 대해 과거 기록을 확인할 수 있다.
+
+따라서 쿠키를 사용하면 다음과 같은 일을 가능케한다.
+
+* 인증
+  * 사용자 세션 유지
+    * 사용자가 브라우저에서 여러 사이트를 방문해도 개별 사이트가 개별 데이터를 유지할 수 있음
+* 쇼핑 카트 \(Stateless한 클라이언트들이 각각의 데이터를 유지할 수 있다.\)
+
+### 웹 캐시 \(프록시 서버\)
+
+매 통신마다 같은 데이터에 대해서 바쁜 서버에게 직접적으로 요청하는 것이 아니라 한번 요청했던 데이터를 가까운 곳에 기록한 후 이후 요청에 대해선 저장해둔 데이터를 사용해 더 빠른 처리를 할 수 있도록 하는 방법이다, 클라이언트는 먼저 서버에 직접 요청을 보내는게 아니라 먼저 프록시 서버에 요청을 보내고 존재할 경우 바로 응답을 보내고\(서버의 역할\), 아닌 경우 요청을 담당하는 서버에 보내게 된다\(클라이언트 역할\). 이렇게 중간에 프록시를 두면 동일한 요청에 대해서 실질적인 트래픽을 줄일 수 있어 비용적인 부분에서 이득을 얻을 수 있다. 추가적으로 웹 캐시는 요청과 응답을 처리할 수 있어야 하기 때문에 클라이언트와 서버의 특징을 동시에 가져야 한다.
+
+#### Conditional GET
+
+하지만 만약 캐시된 내용이 최신 업데이트되어 내용이 변경되었다면 사용자들은 요청에 대해서 프록시 서버로 인해 과거의 내용만 보게될 수 있다. 이런 문제를 해결하기 위해서 프록시 서버는 캐시된 내용이 변경이 이뤄졌는지에 대해서 검사할 필요가 있다. 웹 프록시는 `If-modified-since: <date>`를 헤더에 포함해 서버로 요청하고, 서버는 요청된 데이터가 언제 마지막으로 업데이트되었는지 알 수 있다. 만약 내용이 업데이트되지 않았다면 컨텐츠가 포함되지 않은 응답을 보내게 된다. 따라서 서버에 부담을 줄일 수 있다. \(당연하게 요청된 데이터가 업데이트된 경우 `ok 200`과 최신 컨텐츠를 응답으로 받음\)
+
+## DNS\(Domain Name System\)
+
+네트워크를 연결하기 위해선 Endpoint를 특정할 수 있는 IP 주소가 필요하다. 하지만 사람은 불규칙한 숫자보다 의미있는 단어를 통해서 더 쉽게 네트워크를 연결하기를 원했고, 이런 요구사항으로 인해 DNS가 생기게 되었다.
+
+* hostname to IP address
+* 별칭 hostname 부여
+  * 외부에 알려진 hostname을 내부에서 사용하는 hostname과 맵핑
+* 메일 서버 주소 제공
+* 로드 분산
+  * 동일한 외부 hostname 요청에 내부에서 처리를 분산할 수 있다.
+
+### Why not centralize DNS?
+
+만약 DNS가 하나의 포인트를 가진다면 hostname이 IP와 맵핑하지 못하기 때문에 서로간의 연결에서 매우 심각한 문제가 발생하게 된다. 또 DNS가 중앙에 있다면 너무 많은 트래픽을 감당해야 하고, 요청된 클라이언트와의 거리에 따라서 응답 시간에 많은 시간이 소요될 수 있다. 그리고 전세계 인터넷의 모든 hostname을 database로 관리해야 하기 때문에 너무 많은 비용이 발생하게 된다.
+
+![](https://i.imgur.com/AFmH3sQ.png)
+
+따라서 DNS를 distributed, hierarchical database를 유지한다. Root DNS 서버 아래는 TLD\(Top level DNS Server\)들이 위치하며 이곳에 각 나라별\(.kr, .fr, .jp\)등의 도메인이 위치하게 된다. 이런 방식으로 구성하게 되면 각각의 DNS 서버들은 바로 위 계층만 알면 모든 통신을
+
+### Local DNS name server
+
+위에 설명된 DNS 구조에 속하지 않는 DNS서버로 각 ISP\(rediential ISP, 회사, 대학\)에서 가지고 있다. 앞서 설명한 웹 프록시와 기능과 용도가 비슷하게 사용된다. 만약 맵핑해야 할 DNS 정보가 local DNS에 없다면 Root DNS server에 물어보게 된다.
+
+### DNS nane resolution example
+
+* Iterated query
+
+![](https://i.imgur.com/bhhj2Qn.png)
+
+Local DNS server는 자신이 모르는 DNS 정보에 대해서 가장 먼저 \(1\) Root DNS로 요청을 보내고, \(2\) Root DNS는 자신이 모르는 DNS의 경우 \(3\) 그것을 아는 TLD DNS server의 위치를 알려준다. \(4\) 다시 Local DNS server는 받은 TDL 정보를 가지고 요청을 보내고 \(5\) TLD 서버는 자신이 모르는 경우 그 아래인 \(5\) 기관별 Authoritative DNS 서버의 정보를 알려준다. 마지막으로 \(6\) Local DNS server는 Authoritative DNS에게 요청하고, \(7\) Authoritative DNS서버는 자신의 DNS 정보를 모두 알기 때문에 최종적으로 DNS 정보를 local DNS로 돌려주게 된다.
+
+* Recursive query
+
+![](https://i.imgur.com/V3giLtF.png)
+
+이 방식은 가장 많은 요청이 올 수 있는 상위 계층\(Root DNS server, TLD DNS server\)에 많은 부화를 발생시킬 수 있다. \(Root DNS와 TLD DNS서버에서 Iterated query 방식에 비해 요청/응답을 2배씩 처리하고 있다.\) 추가적으로 각각 동일한 2배의 처리가 이뤄진다고 했지만 TLD DNS보다 더 많은 영역을 포함하고 있는 Root DNS의 부하가 더 많이 발생하게 된다.
+
+### Caching, updateing records
+
+DNS는 매우 빈번이 사용되고 상위 계층의 경우 많은 변경이 일어나지 않기 때문에 캐싱된 데이터의 경우 많은 영역을 다루고 있는 Root DNS 영역에 요청하지 않고 바로 TLD DNS로 요청할 수 있다. 하지만 완전히 변경이 없는 영역은 아니기 때문에 Out-of-date가 발생할 수 있고 따라서 TTL\(Time to live\)을 달아 일정시간 동안 사용 후 갱신이 이뤄진다. 하지만 이런 방법도 Out-of-date를 완벽히 해결할 수 없기 때문에 IETF에서 업데이트된 정보를 전세계로 알리는 새로운 매커니즘을 추가하여 해결했다.
+
+### DNS protocol, message
+
+![](https://i.imgur.com/VJwYAZ0.png)
+
+* Identification
+  * 16bit의 식별자를 동일하게 사용하므로 요청과 응답을 매칭시킬 수 있다.
+* flags
+  * query or reply
+    * 메세지가 요청인지 응답인지 구분
+  * recursion desired
+    * 메세지를 재귀적으로 처리하기를 표시
+  * recursion available
+    * 메세지를 재귀적으로 처리할 수 있음을 표시
+  * reply is authoritative
+    * 응답이 Authoritative를 표시
+
+### DNS records
+
+DNS는 distributed db에 Resource records\(RR\)을 저장하게 된다. RR은 \(name, value, type, ttl\) 형식을 가지며 Type은 아래 4가지 타입을 가지게 된다.
+
+* A
+  * Name : hostname
+  * Value : IP 주소
+  * DNS의 가장 기본적인 역할
+* NS
+  * Name : 도메인 \(e.g., naver.com\)
+  * Value : 이 도메인을 위한 인증 네임 서버의 hostname
+* CNAME
+  * Name : 실제 이름을 대신할 별칭
+  * Value : 실제 이름
+* MX
+  * Value : 이 도메인의 메일 서버 이름
+
+이런 DNS records는 TLD 서버에 자신의 도메인에 관련된 정보를 가지고 있다. 따라서 Local name server는 Root DSN server를 알고, Root DNS server는 TLD server를 알고, TLD server는 Authoritative를 알고, Authoritative는 hostname을 IP 주소로 맵핑한다. 이렇게 새로운 RR이 DNS에 삽입되는 절차는 다음과 같다.
+
+![](https://i.imgur.com/mz59Voa.png)
+
+![](https://i.imgur.com/spKbUPN.png)
+
+## P2P applications
+
+지금까지 설명된 모든 통신은 C-S 구조를 가지고 있었는 반면에 P2P는 Always-on 서버가 존재하지 않으며 임의의 유동적인 IP 및 Always-on이 보장되지 않은 End systems\(or Peer\)와 직접 통신하는 구조를 가진다.
+
