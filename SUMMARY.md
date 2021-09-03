@@ -36,6 +36,8 @@
 
 * [🦎 모던 자바스크립트](books/js-deep-dive/README.md)
   * [데이터 타입](books/js-deep-dive/js-data-type.md)
+  * [원시 값과 객체의 비교](books/js-deep-dive/compare-primitive-to-object.md)
+  * [let, const 키워드와 블록 레벨 스코프](books/js-deep-dive/let-const-and-block-level-scope.md)
 * [🔬 자바 ORM 표준 JPA 프로그래밍](books/java-orm-jpa/README.md)
   * [JPA 소개](books/java-orm-jpa/jpa-chap-1.md)
   * [영속성 관리](books/java-orm-jpa/jpa-chap-3.md)
