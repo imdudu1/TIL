@@ -24,6 +24,8 @@
 * [💖 Leetcode](algorithm/leetcode.md)
 * [👨‍🎤 백준](algorithm/baekjoon.md)
 * [🍫 프로그래머스](algorithm/programmers/README.md)
+  * [Lv.2](algorithm/programmers/level-2/README.md)
+    * [조이스틱](algorithm/programmers/level-2/joystick.md)
   * [스택/큐](algorithm/programmers/stack-queue/README.md)
     * [다리를 지나는 트럭](algorithm/programmers/stack-queue/truck-42583.md)
     * [주식가격](algorithm/programmers/stack-queue/stock-42584.md)
