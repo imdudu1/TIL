@@ -169,5 +169,25 @@ Reader는 먼저 읽기 작업인 프로세스가 없는 경우(nreaders==0) 데
 
 임계 영역이 끝난 후, Reader의 수를 1 줄이는데 이때 자신이 마지막 Reader였다면, Writer가 쓰기 작업을 할 수 있도록 Writer의 잠금을 풀어준다(V(wmutex))
 
+#### Eventcount / Sequencer
 
+세마포어는 앞서 문제가 되었던 다양한 문제와 Busy waiting까지 모든걸 해야했다. 하지만 세마포어는 대기하는 프로세스들 중 하나를 깨우는 과정에서 Starvation 현상이 발생하게 된다.
+Eventcount / Sequencer는 이런 문제를 해결하기 위해 제안된 방법이다. `Sequencer`는 정수형 변수로 세마포어의 S와 비슷하게 활용되며 ticket()이라는 특수한 연산으로만 접근이 가능하고 생성시 <u>***0으로 초기화되고 감소하지 않는다.***</u>와 발생 사건들의 순서를 유지한다.
 
+`ticket(S)`은 현재까지 ticket() 연산이 호출된 횟수를 반환하며 이 작은은 indivisible operation이다.
+
+`Eventcount`는 정수형 변수이며, 생성시 0으로 초기화, 감소하지 않고 특정 사건의 발생 횟수를 기록한다. Eventcount는 read(E), advance(E), await(E, v)연산으로만 접근이 가능하다.
+
+`read(E)`는 현재 Eventcount의 값을 반환한다. `advance(E)`는 E를 1증가하고, E에 해당하는 프로세스를 깨운다. `await(E, v)`는 현재 번호표(E)와 내 번호표(v)를 비교해 대기해야 한다면(if (E < v)), 해당 대기열에 프로세스를 전달해 내 차례가 되면 깨워돌라고 요청한다.
+
+Eventcout / Sequencer의 동작 과정은 은행 창구와 매우 유사하다. 번호표를 뽑고(ticket(S)) 기다리다(await(E, v)) 아무도 없다면 볼 일을 보면 된다. 만약 내 차례가 아니면(E < v) 대기실에서 대기하고 있다 창구 직원이 부르면 내 차례가 돌아온다. 창구 직원은 번호표 순서에 맞게 부르기 때문에 영원히 안불리는 상황은 발생하지 않는다.(starvation 문제 해결)
+
+![](https://i.imgur.com/I6Ywyd2.png)
+
+이전 세마포어와 비슷하지만 세모퍼어의 P(S) 연산에 해당하는 작업에서 다음 순서를 보장받을 수 있는 ticket(S)이 추가된 것이 Eventcount / Sequencer이다.
+
+##### 생성자-소비자 문제
+
+![](https://i.imgur.com/S2D3pgJ.png)
+
+앞서 살펴본 생성자-소비자 문제를 Eventcount/Sequencer를 통해 해결해 볼 수 있다.
