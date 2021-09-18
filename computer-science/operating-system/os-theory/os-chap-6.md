@@ -191,3 +191,10 @@ Eventcout / Sequencer의 동작 과정은 은행 창구와 매우 유사하다. 
 ![](https://i.imgur.com/S2D3pgJ.png)
 
 앞서 살펴본 생성자-소비자 문제를 Eventcount/Sequencer를 통해 해결해 볼 수 있다.
+
+### Language-level solution
+
+앞서 ME를 해결하기 위해 다양한 영역에서의 솔루션을 얻고, 최종적으로 ME, Busy waiting, Starvation같은 문제를 해결했다. 하지만 앞서 내용을 접해봐서 알 수 있듯이 알고리즘과 사용 방법이 복잡한 면이 있다. Language-level solution은 이런 문제를 언어 차원에서 해결할 수 있는 솔루션이다.
+
+#### [Monitor](https://www.youtube.com/watch?v=AnYN-kbCbRI&list=PLBrGAFAIyf5rby7QylRc6JxU5lzQ9c4tN&index=18)
+
