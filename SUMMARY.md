@@ -12,6 +12,7 @@
     * [CPU 스케쥴링](computer-science/operating-system/os-theory/os-chap-5.md)
     * [프로세스](computer-science/operating-system/os-theory/os-chap-6.md)
     * [교착상태](computer-science/operating-system/os-theory/deadlock-resolution.md)
+    * [메모리 관리](computer-science/operating-system/os-theory/memory-management.md)
 * [🌏 네트워크](computer-science/network/README.md)
   * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
     * [응용 계층](computer-science/network/top-down-network/application-layer.md)
