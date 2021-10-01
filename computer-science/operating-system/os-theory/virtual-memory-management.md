@@ -55,7 +55,7 @@ Page 사용 상황에 대한 정보를 기록하는 비트들을 의미한다. �
     - Paging system의 경우 페이지 크기가 모두 같이 때문에 고려사항이 없지만 Segmentation system의 경우 First-fit, Best-fit, Worst-fit, Next-fit같은 고려사항이 존재한다.
 - Replacement strategies (교체 기법)
   - 새로운 페이지를 어떤 페이지와 교체할 것인가? (= 빈 페이지 프레임이 없는 경우)
-  - 이후 자세히 설명
+  - [이후 자세히 설명]
 - Cleaning strategies (정리 기법)
   - 변경된 페이지를 언제 write-back할 것인가에 대한 기법이다.
   - Demand cleaning
@@ -76,4 +76,54 @@ Page 사용 상황에 대한 정보를 기록하는 비트들을 의미한다. �
     - 따라서 적-절-히 유지되는 Plateau(고원) 영역을 유지해야 한다.
 
 ![Load control strategies](https://i.imgur.com/Bo4jIDE.png)
+
+## Replacement Strategies
+
+앞서 SW components를 알아보면서 교체 기법(Replacement strategies)에 대한 간략한 설명을 알았다면, 지금부턴 Fixed allocation, Variable allocation, 두 가지의 경우에 따라 어떤 규칙을 통해 교체될지 알아보자.
+
+### [MIN(OPT, B0) algorithm](https://youtu.be/xLovOdiRtjI?t=822)
+
+MIN algorithm은 *앞으로* 가장 오랫동안 참조되지 않을 페이지를 교체하고, 만약 여러개의 페이지가 동일한 교체 조건에 있다면, Tie-breaking rule(사용자 맘대루!)를 적용한다.
+
+여기서 *앞으로*라는 단어에 주목해야하는데, 이는 미래를 예측해야하기 때문에 실현 불가능한 기법임을 암시한다. 그렇다면 왜 이런 알고리즘을 배우는걸까 라고 한다면, 그건 시나리오에서 나올 수 있는 최선의 경우를 기준으로 실현 가능한 알고리즘의 성능을 검증할 수 있기 때문이다.
+
+### [FIFO algorithm](https://youtu.be/xLovOdiRtjI?t=1320)
+
+우리가 자료구조 또는 알고리즘 수업에서 많이 듣는 FIFO(First In First Out)를 통해 교체하는 기법이다. 순서를 알 수 있도록 적재된 시간을 기억하고 있어야 하며, **Locality**를 고려하지 않았기 때문에 자주 사용되는 페이지가 교체될 가능성이 높다.
+
+FIFO algorithm에서 발생하는 문제점을 해결하기 위한 해결책으로 가장 쉽게 떠올릴 수 있는 방법은, 페이지를 적재할 수 있는 메모리를 늘리는 방법이지만 FIFO algorithm은 *locality를 고려하지 않았기 때문에* **FIFO anomaly**가 발생하여 늘리기 전보다 더욱 떨어지는 현상이 발생할 수 있다.
+
+### [LRU(Least Recently Used) algorithm](https://youtu.be/xLovOdiRtjI?t=1935)
+
+LRU algorithm은 이름에서 알 수 있듯이 가장 오랫동안 참조되지 않은 page를 교체한다. 즉, Locality를 기반으로 둔 교체 기법이다. LRU에서도 가장 오랫동안 참조되지 않은 페이지를 알기 위해서 마지막으로 참조된 시간을 가지고 있어야 하므로 시간을 기록하는 Overhead가 발생할 수 있다. 하지만 이 문제는 기록할 정보를 간소화하여 해소 가능하다. 또 다른 문제점은 *메모리 할당을 Loop 실행에 필요한 Page frame보다 작을 경우* Page fault가 급격하게 증가하게 되는데 이 문제는 Allocation 기법으로 해결해야 한다.
+
+ LRU는 MIN algorithm에 가장 근접한 성능을 보여주며, 실제로 많이 활용되는 기법이다.
+
+### [LFU(Least Frequently Used) algorithm](https://youtu.be/ICq6zoZ0vUQ?t=125)
+
+LFU는 앞의 LRU의 시간 기록에 대한 Overhead를 해결한다. 앞서 LRU에서 설명했듯이 기록할 내용을 간소화하는 방식이로, LFU는 페이지의 참조 횟수를 기록한다. 이렇게 기록된 참조 횟수는 Page fault가 발생하고 교체가 필요할 때 가장 적은 참조 횟수를 가진 페이지를 교체하게 된다. 이 경우 많이 참조된 페이지는 앞으로도 참조될 가능성이 높다는 측면의 Locality를 만족하지만, 최근에 참조된 페이지는 앞으로 다시 참조될 가능성이 높다는 측면의 Locality는 만족하지 못한다. 그래서 최근에 적재된 페이지가 교체될 가능성이 있고, 참조 횟수 누적에 대한 Overhead가 발생할 수 있다.
+
+### NUR(Not Used Recently) algorithm
+
+NUR algorithm은 LRU보다 적은 Overhead로 비슷한 성능을 달성하는데 목적이 있다. NUR은 앞에서 배웠던 Bit vector를 사용해 교체 순서를 정하게 된다.
+
+![교체 순서](https://i.imgur.com/SqZgt0d.png)
+
+위 사진에서 참조(r)은 참조된 순간 1로 기록하고 주기적으로 0으로 바꾸게 된다. 갱신(m)은 페이지에 변경이 있을 경우 1로 기록되고 이 경우 페이지가 교체될 때 Write-back을 수행해야 한다. 앞서 설명에서 알 수 있듯이 단순히 최근에 참조가 됐는지만 확인하기 때문에 LFU의 참조 횟수를 누적하는 Overhead를 없앨 수 있다.
+
+#### [Clock algorithm][https://youtu.be/ICq6zoZ0vUQ?t=685]
+
+![Clock algorithm](https://i.imgur.com/PR6UpvR.png)
+
+NUR을 기반으로 한 알고리즘을 실제로 사용된 알고리즘으로 NUR과의 차이점은 Reference bit를 주기적으로 초기화하던 것과 달리 Clock algorithm은 시계 바늘이 움직이는 것 처럼 Reference bit를 초기화한다.
+
+Clock algorithm은 이름에서 알 수 있듯이 시계의 시침이 돌아가는 것 처럼, 먼저 적재된 페이지가 교체될 가능성이 높아 이 경우 FIFO와 유사하다고 할 수 있다. 하지만 Reference bit를 사용해 Locality를 만족시키는 면에선 LRU(또는 NUR)과도 비슷하다고 할 수 있다.
+
+##### [Second Chance algorithm](https://youtu.be/ICq6zoZ0vUQ?t=988)
+
+Second chance algorithm은 앞의 Reference bit만 고려한 Clock algorithm과 달리 Update bit도 함께 고려한다.
+
+![교체 조건](https://i.imgur.com/xt592Pk.png)
+
+Reference bit은 앞의 Clock algorithm과 같고, 만약 Update bit가 켜져있는 경우 변경 사항을 Swap device에 있는 페이지와 동기화시키기 위한 Write-back 요청을 위한 Write-back list에 추가한다.
 
