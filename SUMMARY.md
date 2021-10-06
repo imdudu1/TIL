@@ -21,30 +21,4 @@
 ## 📦 프레임워크 <a id="framework"></a>
 
 * [🌱 Spring boot](framework/spring-boot.md)
-* [🐱 Nest.js](framework/nestjs.md)
-
-## 🧠 알고리즘 <a id="algorithm"></a>
-
-* [💖 Leetcode](algorithm/leetcode.md)
-* [👨‍🎤 백준](algorithm/baekjoon.md)
-* [🍫 프로그래머스](algorithm/programmers/README.md)
-  * [Lv.2](algorithm/programmers/level-2/README.md)
-    * [조이스틱](algorithm/programmers/level-2/joystick.md)
-  * [스택/큐](algorithm/programmers/stack-queue/README.md)
-    * [다리를 지나는 트럭](algorithm/programmers/stack-queue/truck-42583.md)
-    * [주식가격](algorithm/programmers/stack-queue/stock-42584.md)
-
-## 💬 언어 <a id="programming-langs"></a>
-
-* [🟨 자바스크립트](programming-langs/javascript.md)
-
-## 📚 독서 <a id="books"></a>
-
-* [🦎 모던 자바스크립트](books/js-deep-dive/README.md)
-  * [데이터 타입](books/js-deep-dive/js-data-type.md)
-  * [원시 값과 객체의 비교](books/js-deep-dive/compare-primitive-to-object.md)
-  * [let, const 키워드와 블록 레벨 스코프](books/js-deep-dive/let-const-and-block-level-scope.md)
-* [🔬 자바 ORM 표준 JPA 프로그래밍](books/java-orm-jpa/README.md)
-  * [JPA 소개](books/java-orm-jpa/jpa-chap-1.md)
-  * [영속성 관리](books/java-orm-jpa/jpa-chap-3.md)
 
