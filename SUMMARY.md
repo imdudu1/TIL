@@ -17,7 +17,7 @@
 * [🌏 네트워크](computer-science/network/README.md)
   * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
     * [응용 계층](computer-science/network/top-down-network/application-layer.md)
-    * [전송 계층](computer-science/network/top-down-network/undefined.md)
+    * [전송 계층](computer-science/network/top-down-network/transport-layer.md)
 
 ## 📦 프레임워크 <a href="framework" id="framework"></a>
 
