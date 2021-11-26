@@ -2,11 +2,11 @@
 
 * [🦒 TIL.JURAFFE.DEV](README.md)
 
-## 🖥 CS <a id="computer-science"></a>
+## 🖥 CS <a href="computer-science" id="computer-science"></a>
 
 * [🦕 운영체제](computer-science/operating-system/README.md)
   * [이론](computer-science/operating-system/os-theory/README.md)
-    * [운영체제가 뭐길래?](computer-science/operating-system/os-theory/os-chap-1_2.md)
+    * [운영체제가 뭐길래?](computer-science/operating-system/os-theory/os-chap-1\_2.md)
     * [프로세스의 이해](computer-science/operating-system/os-theory/os-chap-3.md)
     * [쓰레드의 이해](computer-science/operating-system/os-theory/os-chap-4.md)
     * [CPU 스케쥴링](computer-science/operating-system/os-theory/os-chap-5.md)
@@ -17,8 +17,8 @@
 * [🌏 네트워크](computer-science/network/README.md)
   * [컴퓨터 네트워킹 하향식 접근](computer-science/network/top-down-network/README.md)
     * [응용 계층](computer-science/network/top-down-network/application-layer.md)
+    * [전송 계층](computer-science/network/top-down-network/undefined.md)
 
-## 📦 프레임워크 <a id="framework"></a>
+## 📦 프레임워크 <a href="framework" id="framework"></a>
 
 * [🌱 Spring boot](framework/spring-boot.md)
-
