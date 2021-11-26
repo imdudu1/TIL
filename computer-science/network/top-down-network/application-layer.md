@@ -243,3 +243,16 @@ DNS는 distributed db에 Resource records\(RR\)을 저장하게 된다. RR은 \(
 
 지금까지 설명된 모든 통신은 C-S 구조를 가지고 있었는 반면에 P2P는 Always-on 서버가 존재하지 않으며 임의의 유동적인 IP 및 Always-on이 보장되지 않은 End systems\(or Peer\)와 직접 통신하는 구조를 가진다.
 
+### 확장성
+
+![File distribution time : client-server](https://i.imgur.com/X9eI5Jd.png)
+
+C-S 구조에서 파일 배포에 걸리는 시간은 서버가 보내야하는 파일의 수(=N)가 비례하여 증가하게 된다. 왜냐하면 파일의 업로드는 단일 지점인 서버의 처리량에 의존하기 때문에 병목 현상이 발생하기 때문이다.
+
+![File distribution time : P2P](https://i.imgur.com/RtaPwPm.png)
+
+이에 비해서 P2P 구조는 마찬가지로 보내야하는 파일의 수(N)이 증가하지만, 파일을 받는 클라이언트가 서버의 역할을 동시에 하기 때문에 파일 업로드 작업량이 분산되어 병목 현상이 발생하지 않는다.
+
+![Client-server VS. P2P](https://i.imgur.com/TGaYnMs.png)
+
+때문에 C-S 구조와 P2P 구조에서 클라이언트의 수에 따라 지연되는 시간을 나타내는 표를 보면 C-S 구조는 파일을 원하는 클라이언트가 증가함에 따라서 일정하게 증가하는 반면에, P2P 구조에선 파일 업로드의 처리가 분산되기 때문에 파일 배포 시간이 매우 천천히 증가하게 된다.
